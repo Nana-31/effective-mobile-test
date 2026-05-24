@@ -1,0 +1,190 @@
+basePath: /
+definitions:
+  domain.Subscription:
+    properties:
+      endDate:
+        type: string
+      id:
+        type: string
+      price:
+        type: integer
+      serviceName:
+        type: string
+      startDate:
+        type: string
+      userID:
+        type: string
+    type: object
+  handler.CreateSubscriptionInput:
+    properties:
+      end_date:
+        example: 07-2026
+        type: string
+      price:
+        example: 400
+        type: integer
+      service_name:
+        example: Yandex Plus
+        type: string
+      start_date:
+        example: 07-2025
+        type: string
+      user_id:
+        example: 60601fee-2bf1-4721-ae6f-7636e79a0cba
+        format: uuid
+        type: string
+    type: object
+  handler.TotalCostResponse:
+    properties:
+      total:
+        example: 1200
+        type: integer
+    type: object
+  handler.UpdateSubscriptionInput:
+    properties:
+      end_date:
+        example: 08-2026
+        type: string
+      id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+        format: uuid
+        type: string
+      price:
+        example: 450
+        type: integer
+      service_name:
+        example: Yandex Plus
+        type: string
+      start_date:
+        example: 07-2025
+        type: string
+      user_id:
+        example: 60601fee-2bf1-4721-ae6f-7636e79a0cba
+        format: uuid
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST service for tracking online subscriptions.
+  title: Online Subscriptions Aggregator API
+  version: "1.0"
+paths:
+  /subscription:
+    get:
+      parameters:
+      - description: Subscription UUID
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Subscription'
+      summary: Get a subscription
+      tags:
+      - subscriptions
+  /subscription/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Subscription Data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateSubscriptionInput'
+      responses:
+        "201":
+          description: Subscription successfully created!
+          schema:
+            type: string
+      summary: Create a subscription
+      tags:
+      - subscriptions
+  /subscription/delete:
+    delete:
+      parameters:
+      - description: Subscription UUID
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Subscription deleted
+          schema:
+            type: string
+      summary: Delete a subscription
+      tags:
+      - subscriptions
+  /subscription/list:
+    get:
+      parameters:
+      - description: User UUID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Subscription'
+            type: array
+      summary: List user subscriptions
+      tags:
+      - subscriptions
+  /subscription/total:
+    get:
+      parameters:
+      - description: User UUID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: Start date (MM-YYYY)
+        in: query
+        name: start_date
+        required: true
+        type: string
+      - description: End date (MM-YYYY)
+        in: query
+        name: end_date
+        type: string
+      - description: Filter by service name
+        in: query
+        name: service_name
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.TotalCostResponse'
+      summary: Get total cost
+      tags:
+      - subscriptions
+  /subscription/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Updated Subscription Data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateSubscriptionInput'
+      responses:
+        "200":
+          description: Subscription successfully updated!
+          schema:
+            type: string
+      summary: Update a subscription
+      tags:
+      - subscriptions
+swagger: "2.0"
