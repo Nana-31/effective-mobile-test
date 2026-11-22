@@ -41,12 +41,13 @@
 
 1. **Клонируйте репозиторий и перейдите в него:**
 ```bash
-   git clone [https://github.com/ВАШ_НИКНЕЙМ/ИМЯ_РЕПОЗИТОРИЯ.git](https://github.com/ВАШ_НИКНЕЙМ/ИМЯ_РЕПОЗИТОРИЯ.git)
-   cd ИМЯ_РЕПОЗИТОРИЯ
+   git clone https://github.com/Nana-31/effective_mobile_test.git
+   cd test_em
    ```
 
 2. **Запустите проект одной командой:**
-```bash   docker compose up --build
+```bash
+   docker compose up --build
 ```
 
 После этого Docker автоматически скачает PostgreSQL, применит файлы миграций из папки migrations, соберет Go-приложение и запустит веб-сервер на порту :8080.
